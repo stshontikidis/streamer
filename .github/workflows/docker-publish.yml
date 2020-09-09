@@ -47,8 +47,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Docker Buildx
+        uses: crazy-max/ghaction-docker-buildx@v3.3.0
+        id: buildx
+        with:
+          buildx-version: latest
+          qemu-version: latest
+
       - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME --platforms linux/arm/v7,linux/amd64
+        run: docker buildx build . --file Dockerfile --tag $IMAGE_NAME --platform linux/arm/v7,linux/amd64
 
       - name: Log into GitHub Container Registry
       # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
