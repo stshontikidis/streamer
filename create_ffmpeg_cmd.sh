@@ -32,8 +32,6 @@ if [ "$INPUT" == rtsp://* ]; then
   IS_RTSP="-rtsp_transport tcp"
 fi
 
-#FFMPEG_CMD="ffmpeg -rtsp_transport tcp -i ${INPUT} ${LACKING_AUDIO} -acodec ${DEFAULT_AUDIO} -vcodec ${DEFAULT_VIDEO} -hls_list_size 2 -hls_init_time 1 -hls_time 1 -hls_flags delete_segments ${OUTPUT_PATH}${OUTPUT}.m3u8"
-
-FFMPEG_CMD="ffmpeg -rtsp_transport tcp -i rtsp://192.168.1.5:7447/5e8e5257e4b088237a8892cc_1 -codec:a ${DEFAULT_AUDIO} -vn -hls_list_size 2 -hls_init_time 1 -hls_time 2 -hls_flags delete_segments  ${OUTPUT_PATH}${OUTPUT}.m3u8"
+FFMPEG_CMD="ffmpeg -rtsp_transport tcp -i ${INPUT} ${LACKING_AUDIO} -codec:a ${DEFAULT_AUDIO} -f hls -ignore_io_errors 1 -sc_threshold 0  -hls_list_size 10 -hls_time 2 -hls_init_time 1 -hls_flags delete_segments ${OUTPUT_PATH}${OUTPUT}.m3u8"
 
 echo "${FFMPEG_CMD}"
